@@ -15,6 +15,29 @@ app.get("/",(req,res)=>{
     res.send("socket server")
 })
 
+
+const orderNamespace = io.of("/orders");
+const farmSocket = io.of("/farms")
+
+
+
+orderNamespace.use((socket, next) => {
+    // ensure the socket has access to the "orders" namespace, and then
+    next();
+});
+
+orderNamespace.on("connection", (socket) => {
+   console.log("user is trying to make an order")
+});
+
+farmSocket.on("connection", (socket) => {
+    console.log("farmer joined")
+    
+});
+
+
+
+
 io.on('connection', (socket) => {
     console.log("a user joined!!")
     socket.on('disconnect', () => {
